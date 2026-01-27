@@ -487,6 +487,10 @@ async function showEditModal(cakeId) {
 async function updateCake(cakeId) {
     const form = document.getElementById('editCakeForm');
     const formData = new FormData(form);
+    const availability = document.getElementById('editCakeAvailable');
+    if (availability) {
+        formData.set('is_available', availability.checked ? 'true' : 'false');
+    }
     
     showLoading();
     
