@@ -416,7 +416,7 @@ async function showEditModal(cakeId) {
     showLoading();
     
     try {
-        const response = await fetch(`${API_BASE_URL}/api/cakes/${cakeId}`);
+        const response = await fetch(`${API_BASE_URL}/api/admin/cakes/${cakeId}`);
         const cake = await response.json();
         
         // Fill form

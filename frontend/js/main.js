@@ -183,11 +183,14 @@ function renderCakes(cakes) {
                 <p class="cake-description">${cake.description}</p>
                 <div class="cake-price">Rp ${cake.price.toLocaleString()}</div>
                 <span class="cake-category">${getCategoryLabel(cake.category)}</span>
+                <span class="cake-status ${cake.is_available ? 'status-available' : 'status-unavailable'}">
+                    ${cake.is_available ? 'Tersedia' : 'Habis'}
+                </span>
                 <div class="cake-actions">
                     <button class="btn-secondary btn-details" data-id="${cake.id}">
                         <i class="fas fa-circle-info"></i> Lihat Detail
                     </button>
-                    <button class="btn-secondary btn-add" data-id="${cake.id}">
+                    <button class="btn-secondary btn-add ${cake.is_available ? '' : 'btn-disabled'}" data-id="${cake.id}" ${cake.is_available ? '' : 'disabled'}>
                         <i class="fas fa-plus"></i> Tambah
                     </button>
                 </div>
@@ -207,6 +210,7 @@ function renderCakes(cakes) {
     document.querySelectorAll('.btn-add').forEach(button => {
         button.addEventListener('click', (e) => {
             const cakeId = e.target.closest('button').dataset.id;
+            if (e.target.closest('button').disabled) return;
             addToOrder(cakeId);
         });
     });

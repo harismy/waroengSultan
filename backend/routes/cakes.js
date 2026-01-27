@@ -6,7 +6,7 @@ const { all, get } = require('../database/database');
 router.get('/', async (req, res) => {
   try {
     const cakes = await all(
-      'SELECT * FROM cakes WHERE is_available = 1 ORDER BY created_at DESC'
+      'SELECT * FROM cakes ORDER BY created_at DESC'
     );
     res.json(cakes);
   } catch (error) {
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const cake = await get(
-      'SELECT * FROM cakes WHERE id = ? AND is_available = 1',
+      'SELECT * FROM cakes WHERE id = ?',
       [req.params.id]
     );
     
@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
 router.get('/category/:category', async (req, res) => {
   try {
     const cakes = await all(
-      'SELECT * FROM cakes WHERE category = ? AND is_available = 1 ORDER BY name',
+      'SELECT * FROM cakes WHERE category = ? ORDER BY name',
       [req.params.category]
     );
     res.json(cakes);
@@ -54,7 +54,6 @@ router.get('/search/:query', async (req, res) => {
     const cakes = await all(
       `SELECT * FROM cakes 
        WHERE (name LIKE ? OR description LIKE ?) 
-       AND is_available = 1 
        ORDER BY name`,
       [`%${req.params.query}%`, `%${req.params.query}%`]
     );

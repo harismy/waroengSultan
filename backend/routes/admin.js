@@ -128,6 +128,25 @@ router.get('/cakes', isAuthenticated, async (req, res) => {
   }
 });
 
+// Get cake by ID for admin
+router.get('/cakes/:id', isAuthenticated, async (req, res) => {
+  try {
+    const cake = await get(
+      'SELECT * FROM cakes WHERE id = ?',
+      [req.params.id]
+    );
+    
+    if (cake) {
+      res.json(cake);
+    } else {
+      res.status(404).json({ message: 'Kue tidak ditemukan' });
+    }
+  } catch (error) {
+    console.error('Error fetching cake:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 // Add new cake
 router.post('/cakes', isAuthenticated, upload.single('image'), async (req, res) => {
   try {
