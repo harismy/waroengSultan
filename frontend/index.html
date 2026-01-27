@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waroeng Sultan - Kue Basah Terbaik</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    </head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="ws-mark">
+                        <span class="ws-initial">WS</span>
+                        <span class="ws-name">Waroeng Sultan</span>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#menu">Menu Kue Basah</a></li>
+                    <li><a href="#about">Tentang Kami</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                    <li><a href="/admin" class="admin-link admin-link--hidden">Admin</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Waroeng Sultan</h1>
+                <p class="hero-subtitle">Kue Basah Tradisional dengan Cita Rasa Lokal Asli Ciwidey</p>
+                <div class="specialty-badge">
+                    <i class="fas fa-crown"></i> Spesialis Kue Basah Sejak 2021
+                </div>
+                <p>Nikmati kelezatan kue basah tradisional yang dibuat dengan resep turun-temurun dan bahan-bahan pilihan terbaik. Setiap gigitan mengingatkan pada cita rasa masa kecil.</p>
+                <a href="#menu" class="btn-primary">Lihat Menu Kue</a>
+            </div>
+            <div class="hero-image">
+                <img src="images/gambarkue.png" alt="Kue Basah Tradisional">
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <h2 class="section-title">Menu Kue Basah Waroeng Sultan</h2>
+            <p class="section-subtitle">Pilihan kue basah terbaik yang selalu fresh setiap hari</p>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari kue basah...">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="semua">Semua</button>
+                <button class="filter-btn" data-category="kue_basah_populer">Terpopuler</button>
+                <button class="filter-btn" data-category="kue_basah_tradisional">Tradisional</button>
+                <button class="filter-btn" data-category="kue_basah_modern">Modern</button>
+            </div>
+            
+            <div id="cakesContainer" class="cakes-grid">
+                <!-- Kue akan dimuat di sini -->
+                <div class="loading-placeholder">
+                    <div class="loading-spinner"></div>
+                    <p>Memuat menu kue basah...</p>
+                </div>
+            </div>
+
+            <div class="order-panel" id="orderPanel">
+                <div class="order-panel__header">
+                    <h3>Pesanan Kamu</h3>
+                    <p>Tambahkan menu lalu lengkapi alamat untuk lanjut order.</p>
+                </div>
+                <div class="order-panel__content">
+                    <div class="order-items" id="orderItemsList">
+                        <div class="order-empty">
+                            <i class="fas fa-basket-shopping"></i>
+                            <p>Belum ada menu yang dipilih.</p>
+                        </div>
+                    </div>
+                    <div class="order-summary">
+                        <div class="order-summary__row">
+                            <span>Total Item</span>
+                            <strong id="orderTotalQty">0</strong>
+                        </div>
+                        <div class="order-summary__row">
+                            <span>Total Harga</span>
+                            <strong id="orderTotalPrice">Rp 0</strong>
+                        </div>
+                        <div class="order-summary__note" id="shippingNote">
+                            Gratis ongkir area Pasir Jambu/Ciwidey dengan minimal 100 pcs.
+                        </div>
+                    </div>
+                </div>
+                <div class="order-panel__form">
+                    <div class="form-group">
+                        <label for="orderAddress">Alamat Lengkap *</label>
+                        <textarea id="orderAddress" rows="3" placeholder="Contoh: Jl. ... RT/RW ... Kecamatan ..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderNotes">Catatan untuk Kurir (opsional)</label>
+                        <textarea id="orderNotes" rows="2" placeholder="Contoh: Rumah pagar hitam, dekat masjid..."></textarea>
+                    </div>
+                    <button class="btn-primary btn-order" id="orderNowBtn" disabled>
+                        <i class="fab fa-whatsapp"></i> Order Sekarang
+                    </button>
+                    <p class="order-panel__hint">Klik tombol akan membuka WhatsApp admin dengan detail pesanan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Kenapa Memilih Waroeng Sultan?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Bahan Alami</h3>
+                    <p>Hanya menggunakan bahan-bahan alami tanpa pengawet dan pewarna buatan</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Fresh Setiap Hari</h3>
+                    <p>Dibuat fresh setiap pagi, menjamin kesegaran dan kelezatan</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-history"></i>
+                    <h3>Resep Turun-temurun</h3>
+                    <p>Resep tradisional yang dijaga sejak 2021, cita rasa autentik</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Pesanan Antar</h3>
+                    <p>Melayani pesanan antar untuk area tertentu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Tentang Waroeng Sultan</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Sejak 2021</h3>
+                    <p>Waroeng Sultan didirikan oleh Mas Ujhe pada tahun 2021 dengan misi melestarikan kue basah tradisional Indonesia. Dari sebuah ruko kecil di tempat special bernama Ciwidey, kini Waroeng Sultan telah menjadi tujuan utama para pencinta kue basah.</p>
+                    <p>Dengan tetap mempertahankan resep asli dan teknik pembuatan tradisional, setiap kue yang kami produksi membawa cita rasa nostalgia dan kehangatan rumah.</p>
+                    
+                    <div class="achievements">
+                        <div class="achievement">
+                            <h4>5+</h4>
+                            <p>Tahun Pengalaman</p>
+                        </div>
+                        <div class="achievement">
+                            <h4>20+</h4>
+                            <p>Jenis Kue Basah</p>
+                        </div>
+                        <div class="achievement">
+                            <h4>1000+</h4>
+                            <p>Pelanggan Setia</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="images/depantoko.webp" alt="Waroeng Sultan">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Hubungi Kami</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Lokasi</h3>
+                            <p>Jl. Siliwangi No.53, Ciwidey, Kabupaten Bandung, Jawa Barat 40973</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Telepon</h3>
+                            <p>0831-3058-0669<br>0896-2917-6433</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Jam Buka</h3>
+                            <p>24 Jam<br></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>waroengsultan2019@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-map">
+                    <!-- Placeholder untuk peta -->
+                    <a
+                        class="map-link"
+                        href="https://maps.google.com/?q=VFW8%2BV3%20Ciwidey%2C%20Kabupaten%20Bandung%2C%20Jawa%20Barat"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Buka lokasi Waroeng Sultan di Google Maps"
+                    >
+                        <iframe
+                            class="map-embed"
+                            title="Lokasi Waroeng Sultan"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps?q=VFW8%2BV3%20Ciwidey%2C%20Kabupaten%20Bandung%2C%20Jawa%20Barat&output=embed"
+                        ></iframe>
+                        <span class="map-cta">
+                            <i class="fas fa-location-arrow"></i> Buka di Google Maps
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="ws-logo ws-logo--footer">
+                        <span>WS</span>
+                    </div>
+                    <h3>Waroeng Sultan</h3>
+                    <p>Kue Basah Tradisional dengan Cita Rasa Lokal sejak 2021.</p>
+                    <div class="social-links">
+                        <!--<a href="#"><i class="fab fa-instagram"></i></a> -->
+                        <!--<a href="#"><i class="fab fa-facebook"></i></a> -->
+                        <a href="https://wa.me/6283130580669"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Menu Populer</h3>
+                    <ul>
+                        <li><a href="#menu">Bugis</a></li>
+                        <li><a href="#menu">Putu Ayu</a></li>
+                        <li><a href="#menu">Risol</a></li>
+                        <li><a href="#menu">Kue Sakura</a></li>
+                        <li><a href="#menu">Lemper</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Jam Buka</h3>
+                    <p><strong>Setiap Hari</strong></p>
+                    <p>24 Jam</p>
+                    <p class="footer-note">*Pesanan besar harap dilakukan 1 hari sebelumnya</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Waroeng Sultan. Hak Cipta Dilindungi.</p>
+                <p>Dibuat dengan cinta untuk para pecinta kue basah tradisional</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Cake Modal -->
+    <div id="cakeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent">
+                <!-- Konten modal akan dimuat di sini -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
+

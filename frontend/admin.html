@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Toko Kue Basah</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+<!-- Login Screen -->
+<div id="loginScreen" class="login-screen">
+    <div class="login-container">
+        <div class="login-header">
+            <div class="ws-logo ws-logo--login">
+                <span>WS</span>
+            </div>
+            <h1>Admin Dashboard</h1>
+        </div>
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="username"><i class="fas fa-user"></i> Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+        <div class="login-footer">
+            <a href="/"><i class="fas fa-home"></i> Kembali ke Beranda</a>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminDashboard" class="admin-dashboard" style="display: none;">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="ws-logo ws-logo--sidebar">
+                <span>WS</span>
+            </div>
+            <h2>Waroeng Sultan</h2>
+            <p>Admin Panel</p>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </li>
+                <li data-tab="manage-cakes">
+                    <i class="fas fa-cookie-bite"></i> Kelola Kue
+                </li>
+                <li data-tab="add-cake">
+                    <i class="fas fa-plus-circle"></i> Tambah Kue
+                </li>
+                <li data-tab="settings">
+                    <i class="fas fa-cog"></i> Pengaturan
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="content-header">
+            <div class="header-left">
+                <h1 id="pageTitle">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <span id="adminUsername"></span>
+                <i class="fas fa-user-circle user-icon"></i>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Dashboard Tab -->
+            <div id="dashboardTab" class="tab-content active">
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <i class="fas fa-cookie-bite"></i>
+                        <div class="stat-info">
+                            <h3 id="totalCakes">0</h3>
+                            <p>Total Kue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="stat-info">
+                            <h3 id="availableCakes">0</h3>
+                            <p>Kue Tersedia</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-boxes"></i>
+                        <div class="stat-info">
+                            <h3 id="totalStock">0</h3>
+                            <p>Total Stok</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-info">
+                            <h3 id="totalFeatured">0</h3>
+                            <p>Menu Unggulan</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-orders">
+                    <h2>Kue Terbaru</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentCakesTable">
+                                <!-- Kue terbaru akan dimuat di sini -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Cakes Tab -->
+            <div id="manageCakesTab" class="tab-content">
+                <div class="tab-header">
+                    <h2>Kelola Kue</h2>
+                    <div class="search-box">
+                        <input type="text" id="searchCake" placeholder="Cari kue...">
+                        <button id="searchCakeBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Gambar</th>
+                                <th>Nama</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Stok</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cakesTable">
+                            <!-- Data kue akan dimuat di sini -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Cake Tab -->
+            <div id="addCakeTab" class="tab-content">
+                <h2>Tambah Kue Baru</h2>
+                <form id="addCakeForm" class="cake-form" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cakeName">Nama Kue *</label>
+                            <input type="text" id="cakeName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cakeCategory">Kategori *</label>
+                            <select id="cakeCategory" name="category" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="kue_basah_populer">Kue Basah Populer</option>
+                                <option value="kue_basah_tradisional">Kue Basah Tradisional</option>
+                                <option value="kue_basah_modern">Kue Basah Modern</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cakePrice">Harga (Rp) *</label>
+                            <input type="number" id="cakePrice" name="price" min="0" step="500" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cakeStock">Stok *</label>
+                            <input type="number" id="cakeStock" name="stock" min="1" value="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cakeDescription">Deskripsi *</label>
+                        <textarea id="cakeDescription" name="description" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cakeImage">Gambar Kue *</label>
+                        <div class="image-upload">
+                            <input type="file" id="cakeImage" name="image" accept="image/*" required>
+                            <div class="image-preview" id="imagePreview">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Klik untuk upload gambar</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save"></i> Simpan Kue
+                    </button>
+                </form>
+            </div>
+
+
+            <!-- Settings Tab -->
+            <div id="settingsTab" class="tab-content">
+                <h2>Pengaturan</h2>
+                <div class="settings-container">
+                    <div class="settings-card">
+                        <h3><i class="fas fa-key"></i> Ganti Password</h3>
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label>Password Lama</label>
+                                <input type="password" id="oldPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password Baru</label>
+                                <input type="password" id="newPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Konfirmasi Password Baru</label>
+                                <input type="password" id="confirmPassword" required>
+                            </div>
+                            <button type="submit" class="btn-submit">
+                                <i class="fas fa-sync-alt"></i> Ganti Password
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3><i class="fas fa-database"></i> Database</h3>
+                        <div class="db-actions">
+                            <button id="backupBtn" class="btn-secondary">
+                                <i class="fas fa-download"></i> Backup Database
+                            </button>
+                            <button id="clearOrdersBtn" class="btn-danger">
+                                <i class="fas fa-trash"></i> Hapus Semua Pesanan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Edit Cake Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Edit Kue</h2>
+        <form id="editCakeForm" class="cake-form" enctype="multipart/form-data">
+            <input type="hidden" id="editCakeId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editCakeName">Nama Kue</label>
+                    <input type="text" id="editCakeName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCakeCategory">Kategori</label>
+                    <select id="editCakeCategory" name="category" required>
+                        <option value="kue_basah_populer">Kue Basah Populer</option>
+                        <option value="kue_basah_tradisional">Kue Basah Tradisional</option>
+                        <option value="kue_basah_modern">Kue Basah Modern</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editCakePrice">Harga (Rp)</label>
+                    <input type="number" id="editCakePrice" name="price" min="0" step="500" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCakeStock">Stok</label>
+                    <input type="number" id="editCakeStock" name="stock" min="0" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editCakeDescription">Deskripsi</label>
+                <textarea id="editCakeDescription" name="description" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="editCakeAvailable" name="is_available" value="true">
+                        <span>Tersedia</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editCakeImage">Gambar Kue (Opsional)</label>
+                <div class="image-upload">
+                    <input type="file" id="editCakeImage" name="image" accept="image/*">
+                    <div class="image-preview" id="editImagePreview">
+                        <img id="currentImage" src="" alt="Current Image">
+                        <p>Klik untuk ganti gambar</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Simpan Perubahan
+                </button>
+                <button type="button" id="deleteCakeBtn" class="btn-danger">
+                    <i class="fas fa-trash"></i> Hapus Kue
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading" class="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+
+</html>
