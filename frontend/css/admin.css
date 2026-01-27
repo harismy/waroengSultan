@@ -772,18 +772,33 @@ table img {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .admin-dashboard {
+        flex-direction: column;
+    }
+
     .sidebar {
         width: 100%;
         height: auto;
-        position: relative;
+        position: static;
+        overflow: visible;
+    }
+
+    .sidebar-nav {
+        padding: 1rem 0;
+    }
+
+    .sidebar-nav li {
+        justify-content: center;
     }
     
     .main-content {
         margin-left: 0;
+        width: 100%;
     }
     
     .content-header {
         padding: 0 1rem;
+        position: static;
     }
     
     .content-area {
