@@ -159,6 +159,8 @@ function switchTab(tabId) {
     pageTitle.textContent = getTabTitle(tabId);
     
     // Load tab-specific data
+    if (!currentAdmin) return;
+
     switch(tabId) {
         case 'dashboard':
             loadDashboardStats();
@@ -237,10 +239,25 @@ function showAlert(type, message) {
     }, 3000);
 }
 
+async function parseJsonSafely(response) {
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+        return response.json();
+    }
+    const text = await response.text();
+    return { message: text };
+}
+
 // Load Dashboard Stats
 async function loadDashboardStats() {
     try {
         const response = await fetch(`${API_BASE_URL}/api/admin/stats`);
+        if (!response.ok) {
+            if (response.status === 401) {
+                showLoginScreen();
+            }
+            return;
+        }
         const stats = await response.json();
         
         document.getElementById('totalCakes').textContent = stats.totalCakes;
@@ -260,6 +277,12 @@ async function loadCakesTable() {
     showLoading();
     try {
         const response = await fetch(`${API_BASE_URL}/api/admin/cakes`);
+        if (!response.ok) {
+            if (response.status === 401) {
+                showLoginScreen();
+            }
+            throw new Error('Unauthorized');
+        }
         const cakes = await response.json();
         
         const tableBody = document.getElementById('cakesTable');
@@ -364,7 +387,7 @@ function setupAddCakeForm() {
             });
             
             if (response.ok) {
-                await response.json();
+                await parseJsonSafely(response);
                 showAlert('success', 'Kue berhasil ditambahkan');
                 form.reset();
                 imagePreview.innerHTML = `
@@ -375,8 +398,9 @@ function setupAddCakeForm() {
                 // Reload cakes table
                 switchTab('manage-cakes');
             } else {
-                const error = await response.json();
-                throw new Error(error.message);
+                const error = await parseJsonSafely(response);
+                const message = error?.message || `Gagal menambahkan kue (HTTP ${response.status})`;
+                throw new Error(message);
             }
         } catch (error) {
             console.error('Error adding cake:', error);
@@ -531,7 +555,14 @@ async function deleteCake(cakeId) {
 async function loadRecentCakes() {
     try {
         const response = await fetch(`${API_BASE_URL}/api/admin/cakes`);
+        if (!response.ok) {
+            if (response.status === 401) {
+                showLoginScreen();
+            }
+            return;
+        }
         const cakes = await response.json();
+        if (!Array.isArray(cakes)) return;
         const recentCakes = cakes.slice(0, 5);
 
         const tableBody = document.getElementById('recentCakesTable');
