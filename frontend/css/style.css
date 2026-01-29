@@ -801,6 +801,23 @@ body {
         padding: 1rem;
     }
 
+    .order-item {
+        grid-template-columns: 1fr auto;
+        row-gap: 0.6rem;
+    }
+
+    .order-item__price {
+        justify-self: end;
+    }
+
+    .order-qty {
+        justify-self: start;
+    }
+
+    .order-remove {
+        justify-self: end;
+    }
+
     .order-summary {
         margin-top: 1rem;
     }
