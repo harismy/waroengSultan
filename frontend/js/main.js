@@ -20,12 +20,16 @@ const orderAddress = document.getElementById('orderAddress');
 const orderNotes = document.getElementById('orderNotes');
 const orderNowBtn = document.getElementById('orderNowBtn');
 const shippingNote = document.getElementById('shippingNote');
+const viewAllMenuBtn = document.getElementById('viewAllMenuBtn');
+const addMoreMenuBtn = document.getElementById('addMoreMenuBtn');
 
 // State
-let currentCategory = 'all';
+let currentCategory = 'semua';
 let allCakes = [];
 let lastCakesFetch = 0;
 let orderCart = new Map();
+let showAllMenus = false;
+const MENU_PREVIEW_COUNT = 5;
 
 const ADMIN_WA_NUMBER = '6283130580669';
 const FREE_SHIPPING_MIN_QTY = 100;
@@ -83,6 +87,14 @@ function setupEventListeners() {
             cakeModal.style.display = 'none';
         }
     });
+
+    if (viewAllMenuBtn) {
+        viewAllMenuBtn.addEventListener('click', () => {
+            showAllMenus = true;
+            renderCakes(getVisibleCakes());
+            viewAllMenuBtn.style.display = 'none';
+        });
+    }
 }
 
 function setupOrderPanel() {
@@ -92,6 +104,14 @@ function setupOrderPanel() {
         orderNotes.addEventListener('input', updateOrderSummary);
     }
     orderNowBtn.addEventListener('click', handleOrderNow);
+    if (addMoreMenuBtn) {
+        addMoreMenuBtn.addEventListener('click', () => {
+            showAllMenus = true;
+            renderCakes(getVisibleCakes());
+            if (viewAllMenuBtn) viewAllMenuBtn.style.display = 'none';
+            scrollToMenu();
+        });
+    }
 }
 
 // Setup Mobile Menu
@@ -130,7 +150,10 @@ async function loadCakes() {
         if (response.ok) {
             allCakes = await response.json();
             lastCakesFetch = Date.now();
-            renderCakes(allCakes);
+            renderCakes(getVisibleCakes());
+            if (viewAllMenuBtn) {
+                viewAllMenuBtn.style.display = allCakes.length > MENU_PREVIEW_COUNT ? 'inline-flex' : 'none';
+            }
         } else {
             throw new Error('Failed to load cakes');
         }
@@ -212,6 +235,7 @@ function renderCakes(cakes) {
             const cakeId = e.target.closest('button').dataset.id;
             if (e.target.closest('button').disabled) return;
             addToOrder(cakeId);
+            scrollToOrderPanel();
         });
     });
 }
@@ -236,7 +260,17 @@ function filterCakes() {
         filteredCakes = allCakes.filter(cake => cake.category === currentCategory);
     }
     
-    renderCakes(filteredCakes);
+    if (!showAllMenus) {
+        renderCakes(filteredCakes.slice(0, MENU_PREVIEW_COUNT));
+    } else {
+        renderCakes(filteredCakes);
+    }
+
+    if (viewAllMenuBtn) {
+        viewAllMenuBtn.style.display = !showAllMenus && filteredCakes.length > MENU_PREVIEW_COUNT
+            ? 'inline-flex'
+            : 'none';
+    }
 }
 
 // Handle Search
@@ -258,7 +292,7 @@ function handleSearch() {
                 hideLoading();
             });
     } else {
-        renderCakes(allCakes);
+        renderCakes(getVisibleCakes());
     }
 }
 
@@ -355,6 +389,33 @@ function addToOrder(cakeId) {
     orderCart.set(cake.id, existing);
     renderOrderItems();
     updateOrderSummary();
+}
+
+function getVisibleCakes() {
+    let list = allCakes;
+    if (currentCategory !== 'semua') {
+        list = allCakes.filter(cake => cake.category === currentCategory);
+    }
+    if (!showAllMenus) {
+        return list.slice(0, MENU_PREVIEW_COUNT);
+    }
+    return list;
+}
+
+function scrollToOrderPanel() {
+    const panel = document.getElementById('orderPanel');
+    if (!panel) return;
+    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+    const targetPosition = panel.offsetTop - headerHeight - 20;
+    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+}
+
+function scrollToMenu() {
+    const menu = document.getElementById('menu');
+    if (!menu) return;
+    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+    const targetPosition = menu.offsetTop - headerHeight - 20;
+    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
 }
 
 function updateOrderQuantity(cakeId, delta) {

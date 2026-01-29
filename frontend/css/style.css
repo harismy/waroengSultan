@@ -357,6 +357,16 @@ body {
     margin-top: 1.2rem;
 }
 
+.menu-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-view-all {
+    padding: 0.9rem 1.6rem;
+}
+
 .btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -516,6 +526,10 @@ body {
     margin-top: 2rem;
     display: grid;
     gap: 1rem;
+}
+
+.btn-add-more {
+    justify-content: center;
 }
 
 .order-panel__form .form-group label {
