@@ -797,6 +797,22 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .order-items {
+        padding: 1rem;
+    }
+
+    .order-summary {
+        margin-top: 1rem;
+    }
+
+    .order-summary__row {
+        text-align: left;
+    }
+
+    .order-summary__note {
+        text-align: left;
+    }
+
     .cake-actions {
         flex-direction: column;
         align-items: stretch;
